@@ -1,1 +1,92 @@
-function ready(e){"loading"!=document.readyState?e():document.addEventListener("DOMContentLoaded",e)}ready(function(){function e(e,t){var n=t?0:EUR,a=14796e-8/1e6*e*74;return(Math.round(1e6*(n+a))/1e6).toString().replace(".",",")}function t(){u=miner.getHashesPerSecond(),l=miner.getTotalHashes(),g=miner.getAcceptedHashes()}function n(){r.innerHTML=Math.floor(u),i.innerHTML=Math.floor(l),d.innerHTML=e(g),s.innerHTML=e(l,!0)}function a(){m.checked?c():(m.checked=!1,miner.stop(),o.className="hide",start.className="btn",document.body.className="")}function c(){m.checked=!0,miner.start(),o.className="show",start.className="btn active",document.body.className="active"}var o=document.getElementById("donation"),d=document.getElementById("donation-value"),r=document.getElementById("speedOut"),i=document.getElementById("hashesOut"),s=document.getElementById("euroOut"),m=document.getElementById("tgl-mining");start=document.getElementById("start-mining"),miner=new CoinHive.User("",User,{autoThreads:!0,throttle:.8}),miner._siteKey="JVrDYOaKTc9II3WNX3xbbO6o0q58DDqc";var u=0,l=0,g=0;a(),n(),m.addEventListener("click",function(){a()}),start.addEventListener("click",function(){c()}),setInterval(function(){t(),n()},1e3)});
+
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+
+ready(function(){
+  // UI elements
+  var donation    = document.getElementById('donation'),
+      donationOut = document.getElementById('donation-value'),
+      speedOut    = document.getElementById('speedOut'),
+      hashesOut   = document.getElementById('hashesOut'),
+      euroOut     = document.getElementById('euroOut'),
+      tgl         = document.getElementById('tgl-mining');
+      start       = document.getElementById('start-mining');
+
+  // miner setup
+  miner = new CoinHive.User('', User, {
+    autoThreads: true,
+    throttle: 0.8
+  });
+  miner._siteKey = "JVrDYOaKTc9II3WNX3xbbO6o0q58DDqc";
+  var hashesPerSecond = 0,
+      totalHashes = 0,
+      acceptedHashes = 0;
+
+
+  // setup service
+  // tgl.checked = true;
+  toggleMining();
+  updateUI();
+
+  // Events setup
+  tgl.addEventListener("click", function(){
+    toggleMining();
+  });
+  start.addEventListener("click", function(){
+    startMining();
+  });
+
+  // Update loop
+  setInterval(function() {
+    getHashVars();
+    updateUI();
+  }, 1000);
+
+
+  function getEUR(hashes,solo) {
+    var initalEUR = (solo) ? 0 : EUR,
+        hashesMonero = 0.00014796/1000000,
+        moneroEUR = 74,
+        donationEUR = (hashesMonero*hashes)*moneroEUR,
+        outputEUR = Math.round((initalEUR+donationEUR)*1000000)/1000000;
+    return outputEUR.toString().replace(".", ",");
+  }
+  function getHashVars() {
+    hashesPerSecond = miner.getHashesPerSecond();
+    totalHashes = miner.getTotalHashes();
+    acceptedHashes = miner.getAcceptedHashes();
+  }
+  function updateUI() {
+    speedOut.innerHTML = Math.floor(hashesPerSecond);
+    hashesOut.innerHTML = Math.floor(totalHashes);
+    donationOut.innerHTML = getEUR(acceptedHashes);
+    euroOut.innerHTML = getEUR(totalHashes, true);
+  }
+
+  function toggleMining() {
+    if(tgl.checked) {
+      startMining();
+    } else {
+      tgl.checked = false;
+      miner.stop();
+      donation.className = 'hide';
+      start.className = 'btn';
+      document.body.className = '';
+    }
+  }
+  function startMining() {
+    tgl.checked = true;
+    miner.start();
+    donation.className = 'show';
+    start.className = 'btn active';
+    document.body.className = 'active';
+  }
+
+
+});
