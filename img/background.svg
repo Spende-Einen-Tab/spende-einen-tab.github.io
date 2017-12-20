@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="368px" height="368px" viewBox="0 0 368 368" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
-    <title>imgs/background</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="imgs/background" fill="#F0F0F0">
-            <polygon id="Rectangle-2" points="368 0 368 368 0 368"></polygon>
-        </g>
-    </g>
-</svg>
+<svg width="368" height="368" viewBox="0 0 368 368" xmlns="http://www.w3.org/2000/svg"><title>imgs/background</title><path d="M368 0v368H0z" fill="#F0F0F0" fill-rule="evenodd"/></svg>
